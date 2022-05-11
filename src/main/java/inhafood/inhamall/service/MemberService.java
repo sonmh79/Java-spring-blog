@@ -1,6 +1,8 @@
 package inhafood.inhamall.service;
 
 import inhafood.inhamall.domain.Member;
+import inhafood.inhamall.exception.NoSuchLoginIdException;
+import inhafood.inhamall.exception.PasswordNotMatchException;
 import inhafood.inhamall.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,16 +35,16 @@ public class MemberService {
         }
     }
 
-    public boolean loginCheck(String loginId, String pw) {
+    public boolean loginCheck(String loginId, String pw){
         List<Member> findMembers = memberRepository.findByLoginId(loginId);
         if (findMembers.isEmpty()) {
-            throw new IllegalStateException("일치하는 아이디가 없습니다.");
+            throw new NoSuchLoginIdException();
         }
         Member findMember = findMembers.get(0);
         if (findMember.getPassword().equals(pw)) {
             return true;
         } else {
-            return false;
+            throw new PasswordNotMatchException();
         }
     }
 

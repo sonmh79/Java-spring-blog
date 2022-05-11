@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -27,13 +29,17 @@ public class MemberController {
     }
 
     @GetMapping("/signin")
-    public String createSigninForm(Model model) {
+    public String createSigninForm(@RequestParam(value = "error",required = false) String errorMessage, Model model) {
         model.addAttribute("signinForm", new signinForm());
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
         return "members/signin";
     }
 
     @PostMapping("/signin")
-    public String login(@Valid signinForm form, BindingResult result, Model model, HttpSession session) {
+    @ExceptionHandler(value = IllegalStateException.class)
+    public String login(@Valid signinForm form, BindingResult result, Model model, HttpSession session, Exception e) {
         if (result.hasErrors()) {
             return "members/signin";
         }
@@ -42,6 +48,7 @@ public class MemberController {
         if (memberService.loginCheck(loginId, pw)) {
             session.setAttribute("loginCheck", true);
             session.setAttribute("loginId", loginId);
+            System.out.println(e.getMessage());
             return "redirect:/";
         }
 
