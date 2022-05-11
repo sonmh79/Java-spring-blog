@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="bodyHeader" th:fragment="bodyHeader">
+    <a href="/">홈</a>
+    <p th:if = "${session.loginCheck}" th:text = "${session.loginId.toString()} + '님 안녕하세요'"></p>
+    <p th:if = "${session.loginCheck}"><a href='/logout'>로그아웃</a></p>
+    <p th:unless = "${session.loginCheck}">
+        <a href="/signin">로그인</a>
+        <a href="/signup">회원가입</a>
+    </p>
+</div>
