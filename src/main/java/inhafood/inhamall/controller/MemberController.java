@@ -1,4 +1,4 @@
-package inhafood.inhamall.Controller;
+package inhafood.inhamall.controller;
 
 import inhafood.inhamall.domain.Member;
 import inhafood.inhamall.service.MemberService;
