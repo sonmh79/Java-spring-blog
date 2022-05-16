@@ -48,4 +48,8 @@ public class MemberService {
         }
     }
 
+    public Member findOne(Long id) {
+        Member findMember = memberRepository.findById(id);
+        return findMember;
+    }
 }
