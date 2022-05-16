@@ -39,20 +39,18 @@ public class MemberController {
 
     @PostMapping("/signin")
     @ExceptionHandler(value = IllegalStateException.class)
-    public String login(@Valid signinForm form, BindingResult result, Model model, HttpSession session, Exception e) {
+    public String login(@Valid signinForm form, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             return "members/signin";
         }
         String loginId = form.getLoginId();
         String pw = form.getPassword();
-        if (memberService.loginCheck(loginId, pw)) {
-            session.setAttribute("loginCheck", true);
-            session.setAttribute("loginId", loginId);
-            System.out.println(e.getMessage());
-            return "redirect:/";
-        }
-
-        return "members/signin";
+        Member findMember = memberService.loginCheck(loginId, pw);
+        session.setAttribute("loginCheck", true);
+        session.setAttribute("id", findMember.getId());
+        session.setAttribute("loginId", findMember.getLoginId());
+        session.setAttribute("name", findMember.getName());
+        return "redirect:/";
     }
 
     @GetMapping("/signup")
