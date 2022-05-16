@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -39,10 +40,11 @@ public class MemberController {
 
     @PostMapping("/signin")
     @ExceptionHandler(value = IllegalStateException.class)
-    public String login(@Valid signinForm form, BindingResult result, Model model, HttpSession session) {
+    public String login(@Valid signinForm form, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             return "members/signin";
         }
+        HttpSession session = request.getSession();
         String loginId = form.getLoginId();
         String pw = form.getPassword();
         Member findMember = memberService.loginCheck(loginId, pw);
@@ -77,12 +79,10 @@ public class MemberController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpServletRequest request) {
 
-        Object sessionStatus = session.getAttribute("loginCheck");
-        session.setAttribute("loginCheck", null);
-        session.setAttribute("loginId", null);
-
+        request.getSession().invalidate();
+        request.getSession(true);
         return "redirect:/";
     }
 
