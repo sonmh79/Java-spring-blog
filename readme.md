@@ -8,9 +8,14 @@
     - 예외 처리 (일치하는 아이디 없음, 패스워드 미일치)
   - 회원가입
 
+
+- 게시글 기능
+  - 작성
+
 ### 엔티티
 
 - Member(id,name,loginId,password)
+- Article(id,title,description,Timestamps(createdDate, updatedDate, deletedDate),member)
 
 ### 패키지 구조
 
