@@ -17,7 +17,7 @@ public class Article {
     private String description;
     @Embedded
     private Timestamps timestamps;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;
 }

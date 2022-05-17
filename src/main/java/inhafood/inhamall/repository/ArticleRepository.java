@@ -24,7 +24,7 @@ public class ArticleRepository {
     }
 
     public List<Article> findByTitle(String title) {
-        return em.createQuery("select a from article a where a.title = :title", Article.class)
+        return em.createQuery("select a from Article a where a.title = :title", Article.class)
                 .setParameter("title", title)
                 .getResultList();
     }
