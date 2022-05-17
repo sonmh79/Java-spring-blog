@@ -3,6 +3,7 @@ package inhafood.inhamall.controller;
 import inhafood.inhamall.domain.Article;
 import inhafood.inhamall.domain.Member;
 import inhafood.inhamall.domain.Timestamps;
+import inhafood.inhamall.exception.NoLoginUserException;
 import inhafood.inhamall.service.ArticleService;
 import inhafood.inhamall.service.MemberService;
 import inhafood.inhamall.web.ArticleForm;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +32,13 @@ public class ArticleController {
     private final MemberService memberService;
 
     @GetMapping("/write")
-    public String createArticleForm(Model model) {
+    public String createArticleForm(Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        if (session.getAttribute("loginCheck") == null) {
+            throw new NoLoginUserException();
+        }
+
         model.addAttribute("articleForm", new ArticleForm());
         return "article/write";
     }
@@ -53,7 +61,7 @@ public class ArticleController {
 
         articleService.save(article);
 
-        return "redirect:/";
+        return "redirect:/articleList";
     }
 
     @GetMapping("/articleList")
