@@ -29,9 +29,9 @@ public class ArticleRepository {
                 .getResultList();
     }
 
-    public List<Article> findByLoginId(String loginId) {
-        return em.createQuery("select a from article a where a.loginId = :loginId", Article.class)
-                .setParameter("loginId", loginId)
+    public List<Article> findByMemberId(Long memberId) {
+        return em.createQuery("select a from Article a where a.member.id = :memberId", Article.class)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
 }
