@@ -24,13 +24,18 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/")
-    public String home(Model model, HttpSession session) {
+    public String home(@RequestParam(value = "errorMessage", required = false) String errorMessage, Model model, HttpSession session) {
+
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
         model.addAttribute("data", session.getAttribute("loginCheck"));
         return "index";
     }
 
     @GetMapping("/signin")
-    public String createSigninForm(@RequestParam(value = "error",required = false) String errorMessage, Model model) {
+    public String createSigninForm(@RequestParam(value = "errorMessage",required = false) String errorMessage, Model model) {
         model.addAttribute("signinForm", new signinForm());
         if (errorMessage != null) {
             model.addAttribute("errorMessage", errorMessage);

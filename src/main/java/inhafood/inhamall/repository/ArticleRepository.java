@@ -34,4 +34,9 @@ public class ArticleRepository {
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
+
+    public List<Article> findAll() {
+        return em.createQuery("select a from Article a order by a.timestamps.createdDate desc")
+                .getResultList();
+    }
 }

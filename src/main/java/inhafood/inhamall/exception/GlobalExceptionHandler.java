@@ -9,13 +9,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchLoginIdException.class)
     public String handleNoSuchLoginIdException(NoSuchLoginIdException e, Model model) {
-        model.addAttribute("error", e.getMessage());
+        model.addAttribute("errorMessage", e.getMessage());
         return "redirect:/signin";
     }
 
     @ExceptionHandler(PasswordNotMatchException.class)
     public String handlePasswordNotMatchException(PasswordNotMatchException e, Model model) {
-        model.addAttribute("error", e.getMessage());
+        model.addAttribute("errorMessage", e.getMessage());
         return "redirect:/signin";
+    }
+
+    @ExceptionHandler(NoLoginUserException.class)
+    public String handleNoLoginUserException(NoLoginUserException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "redirect:/";
     }
 }
