@@ -22,20 +22,19 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Controller
-@RequestMapping("/write")
 @RequiredArgsConstructor
 public class ArticleController {
 
     private final ArticleService articleService;
     private final MemberService memberService;
 
-    @GetMapping("")
+    @GetMapping("/write")
     public String createArticleForm(Model model) {
         model.addAttribute("articleForm", new ArticleForm());
         return "article/write";
     }
 
-    @PostMapping("")
+    @PostMapping("/write")
     public String saveArticle(@Valid ArticleForm form, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
