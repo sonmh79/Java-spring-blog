@@ -35,17 +35,21 @@ public class MemberService {
         }
     }
 
-    public boolean loginCheck(String loginId, String pw){
+    public Member loginCheck(String loginId, String pw){
         List<Member> findMembers = memberRepository.findByLoginId(loginId);
         if (findMembers.isEmpty()) {
             throw new NoSuchLoginIdException();
         }
         Member findMember = findMembers.get(0);
         if (findMember.getPassword().equals(pw)) {
-            return true;
+            return findMember;
         } else {
             throw new PasswordNotMatchException();
         }
     }
 
+    public Member findOne(Long id) {
+        Member findMember = memberRepository.findById(id);
+        return findMember;
+    }
 }

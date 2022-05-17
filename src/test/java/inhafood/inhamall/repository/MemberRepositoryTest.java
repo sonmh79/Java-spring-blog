@@ -26,7 +26,7 @@ public class MemberRepositoryTest {
 
         Long savedId = memberRepository.save(member);
 
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findById(savedId);
         org.assertj.core.api.Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
     }
 
