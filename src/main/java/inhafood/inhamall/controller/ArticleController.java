@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,19 +22,20 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Controller
+@RequestMapping("/write")
 @RequiredArgsConstructor
 public class ArticleController {
 
     private final ArticleService articleService;
     private final MemberService memberService;
 
-    @GetMapping("/write")
+    @GetMapping("")
     public String createArticleForm(Model model) {
         model.addAttribute("articleForm", new ArticleForm());
         return "article/write";
     }
 
-    @PostMapping("/write")
+    @PostMapping("")
     public String saveArticle(@Valid ArticleForm form, BindingResult result, HttpServletRequest request) {
 
         if (result.hasErrors()) {
