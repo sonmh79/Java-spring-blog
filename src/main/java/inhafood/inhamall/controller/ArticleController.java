@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -44,7 +45,7 @@ public class ArticleController {
         Article article = new Article();
         article.setTitle(form.getTitle());
         article.setDescription(form.getDescription());
-        article.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        article.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
 
         Long id = (Long) request.getSession().getAttribute("id");
         Member findMember = memberService.findOne(id);
@@ -53,5 +54,16 @@ public class ArticleController {
         articleService.save(article);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/articleList")
+    public String showArticles(Model model) {
+
+
+        List<Article> articles = articleService.findAll();
+
+        model.addAttribute("articles", articles);
+
+        return "article/articleList";
     }
 }
