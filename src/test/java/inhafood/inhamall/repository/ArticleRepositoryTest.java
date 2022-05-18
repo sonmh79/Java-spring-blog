@@ -11,11 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -167,5 +165,35 @@ class ArticleRepositoryTest {
         for (Article a : articleList) {
             System.out.println(a.getId());
         }
+    }
+
+    @Test
+    void 게시글_수정() {
+        Article article = new Article();
+        article.setTitle("Tt");
+        article.setDescription("des");
+        article.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+
+        Member member = new Member();
+        member.setName("son");
+        member.setLoginId("sonny");
+        member.setPassword("1111");
+
+        article.setMember(member);
+
+        Long savedId = articleRepository.save(article);
+
+        String newTitle = "새로운 제목입니다.";
+        String newDescription = "새로운 내용입니다.";
+
+        Long cnt = articleRepository.updateArticle(savedId, newTitle, newDescription);
+        System.out.println(cnt + "개의 글이 수정되었습니다.");
+
+        articleRepository.clearEm(); // 영속성 컨텍스트 초기화
+
+        Article updatedArticle = articleRepository.findById(savedId);
+        Assertions.assertThat(updatedArticle.getTitle()).isEqualTo(newTitle);
+        Assertions.assertThat(updatedArticle.getDescription()).isEqualTo(newDescription);
+
     }
 }
