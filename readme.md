@@ -14,6 +14,7 @@
   - 작성(write)
     - 예외 처리 (로그인 필요)
   - 조회(articleList)
+    - 세부 페이지(articleDetail)
   - 수정(update)
   - 삭제(delete)
     - 영구 삭제(deleteForever)
