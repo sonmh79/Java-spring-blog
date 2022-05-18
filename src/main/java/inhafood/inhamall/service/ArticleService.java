@@ -24,4 +24,13 @@ public class ArticleService {
     public List<Article> findAll() {
         return articleRepository.findAll();
     }
+
+    public Article findOne(Long id) {
+        return articleRepository.findById(id);
+    }
+
+    public Long updateArticle(Long articleId, String title, String description) {
+        return articleRepository.updateArticle(articleId, title, description);
+    }
+
 }
