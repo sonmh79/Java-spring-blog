@@ -196,4 +196,32 @@ class ArticleRepositoryTest {
         Assertions.assertThat(updatedArticle.getDescription()).isEqualTo(newDescription);
 
     }
+
+    @Test
+    void 글_삭제() {
+
+        Article article = new Article();
+        article.setTitle("Tt");
+        article.setDescription("des");
+        article.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+
+        Member member = new Member();
+        member.setName("son");
+        member.setLoginId("sonny");
+        member.setPassword("1111");
+
+        article.setMember(member);
+
+        Long savedId = articleRepository.save(article);
+        articleRepository.delete(savedId);
+
+        articleRepository.clearEm();
+
+        //전체 게시글 조회
+        List<Article> articleList = articleRepository.findAll();
+        System.out.println("모든 게시글은 총" + articleList.size() + "개 입니다.");
+        for (Article a : articleList) {
+            System.out.println(a.getId());
+        }
+    }
 }
