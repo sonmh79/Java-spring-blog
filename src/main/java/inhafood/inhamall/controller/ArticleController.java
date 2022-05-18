@@ -117,4 +117,11 @@ public class ArticleController {
         articleService.deleteForever(id);
         return "redirect:/deletedArticleList";
     }
+
+    @GetMapping("/articleDetail")
+    public String showArticleDetail(@RequestParam(value = "id") Long id, Model model) {
+        Article article = articleService.findOne(id);
+        model.addAttribute("article", article);
+        return "article/articleDetail";
+    }
 }
