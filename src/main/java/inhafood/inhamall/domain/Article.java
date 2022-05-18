@@ -2,6 +2,7 @@ package inhafood.inhamall.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.persister.walking.spi.CollectionDefinition;
 
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ public class Article {
     private String description;
     @Embedded
     private Timestamps timestamps;
+    private Integer visitCount;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id")
     private Member member;

@@ -55,6 +55,7 @@ public class ArticleController {
         article.setTitle(form.getTitle());
         article.setDescription(form.getDescription());
         article.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+        article.setVisitCount(0);
 
         Long id = (Long) request.getSession().getAttribute("id");
         Member findMember = memberService.findOne(id);
@@ -121,6 +122,7 @@ public class ArticleController {
     @GetMapping("/articleDetail")
     public String showArticleDetail(@RequestParam(value = "id") Long id, Model model) {
         Article article = articleService.findOne(id);
+        articleService.visit(id);
         model.addAttribute("article", article);
         return "article/articleDetail";
     }
