@@ -44,4 +44,8 @@ public class ArticleService {
     public void deleteForever(Long id) {
         articleRepository.deleteForever(id);
     }
+
+    public void visit(Long id) {
+        articleRepository.visitArticle(id);
+    }
 }

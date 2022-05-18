@@ -227,4 +227,34 @@ class ArticleRepositoryTest {
             System.out.println(a.getTimestamps().getDeletedDate());
         }
     }
+
+    @Test
+    void 글방문() {
+
+        Article article = new Article();
+        article.setTitle("Tt");
+        article.setDescription("des");
+        article.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+        article.setVisitCount(0);
+
+        Member member = new Member();
+        member.setName("son");
+        member.setLoginId("sonny");
+        member.setPassword("1111");
+
+        article.setMember(member);
+
+        Long savedId = articleRepository.save(article);
+
+        articleRepository.visitArticle(savedId);
+        articleRepository.clearEm();
+        Article findArticle = articleRepository.findById(savedId);
+
+        System.out.println(findArticle.getTitle());
+        System.out.println(findArticle.getDescription());
+        System.out.println(findArticle.getVisitCount());
+
+        Assertions.assertThat(findArticle.getVisitCount()).isEqualTo(1);
+
+    }
 }

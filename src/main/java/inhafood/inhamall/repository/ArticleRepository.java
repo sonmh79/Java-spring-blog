@@ -74,4 +74,10 @@ public class ArticleRepository {
                 .setParameter("id", id)
                 .executeUpdate();
     }
+
+    public void visitArticle(Long id) {
+        em.createQuery("update Article a set a.visitCount = a.visitCount + 1 where a.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }
