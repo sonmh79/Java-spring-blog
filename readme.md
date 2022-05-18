@@ -15,6 +15,9 @@
     - 예외 처리 (로그인 필요)
   - 조회(articleList)
   - 수정(update)
+  - 삭제(delete)
+    - 영구 삭제(deleteForever)
+  - 휴지통(deletedArticleList)
 
 ### 엔티티
 
