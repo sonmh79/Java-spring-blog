@@ -15,6 +15,7 @@
     - 예외 처리 (로그인 필요)
   - 조회(articleList)
     - 세부 페이지(articleDetail)
+    - 방문자 수 기록
   - 수정(update)
   - 삭제(delete)
     - 영구 삭제(deleteForever)
@@ -23,7 +24,7 @@
 ### 엔티티
 
 - Member(id,name,loginId,password)
-- Article(id,title,description,Timestamps(createdDate, updatedDate, deletedDate),member)
+- Article(id,title,description,Timestamps(createdDate, updatedDate, deletedDate),visitCount,member)
 
 ### 패키지 구조
 
