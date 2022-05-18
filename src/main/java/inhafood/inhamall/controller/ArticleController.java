@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,11 +68,31 @@ public class ArticleController {
     @GetMapping("/articleList")
     public String showArticles(Model model) {
 
-
         List<Article> articles = articleService.findAll();
 
         model.addAttribute("articles", articles);
 
         return "article/articleList";
+    }
+
+    @GetMapping("/update")
+    public String showUpdateArticleForm(@RequestParam(value = "id") Long id, Model model) {
+
+        Article a = articleService.findOne(id);
+        ArticleForm articleForm = new ArticleForm();
+        articleForm.setTitle(a.getTitle());
+        articleForm.setDescription(a.getDescription());
+
+        model.addAttribute("articleForm", articleForm);
+        model.addAttribute("articleId", id);
+
+        return "article/update";
+    }
+
+    @PostMapping("/update")
+    public String updateArticle(@RequestParam(value = "id") Long id, @Valid ArticleForm form, BindingResult result) {
+        Article a = articleService.findOne(id);
+        articleService.updateArticle(id, form.getTitle(), form.getDescription());
+        return "redirect:/articleList";
     }
 }
