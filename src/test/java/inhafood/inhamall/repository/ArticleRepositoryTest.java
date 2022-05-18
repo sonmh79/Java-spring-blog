@@ -219,9 +219,12 @@ class ArticleRepositoryTest {
 
         //전체 게시글 조회
         List<Article> articleList = articleRepository.findAll();
-        System.out.println("모든 게시글은 총" + articleList.size() + "개 입니다.");
+        List<Article> articleDeletedList = articleRepository.findAllDeleted();
+        System.out.println("모든 게시글은 총"+ articleList.size() + "개 입니다.");
+        System.out.println("삭제된 게시글은 총" + articleDeletedList.size() + "개 입니다.");
         for (Article a : articleList) {
             System.out.println(a.getId());
+            System.out.println(a.getTimestamps().getDeletedDate());
         }
     }
 }

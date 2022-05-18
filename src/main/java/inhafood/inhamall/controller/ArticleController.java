@@ -95,4 +95,26 @@ public class ArticleController {
         articleService.updateArticle(id, form.getTitle(), form.getDescription());
         return "redirect:/articleList";
     }
+
+    @GetMapping("/delete")
+    public String deleteArticle(@RequestParam(value = "id") Long id) {
+        articleService.delete(id);
+        return "redirect:/articleList";
+    }
+
+    @GetMapping("/deletedArticleList")
+    public String showDeletedArticles(Model model) {
+
+        List<Article> articles = articleService.findAllDeleted();
+
+        model.addAttribute("articles", articles);
+
+        return "article/deletedArticleList";
+    }
+
+    @GetMapping("/deleteForever")
+    public String deleteArticleForever(@RequestParam(value = "id") Long id) {
+        articleService.deleteForever(id);
+        return "redirect:/deletedArticleList";
+    }
 }

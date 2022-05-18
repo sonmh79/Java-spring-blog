@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>휴지통</title>
+</head>
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader" />
+<h1>휴지통</h1>
+<div th:each="article : ${articles}">
+  <h2 th:text="'제목: ' + ${article.title}"></h2>
+  <p th:text="'내용: ' + ${article.description}"></p>
+  <p th:text="'작성자: ' + ${article.member.name}"></p>
+  <p th:text="'작성 시간: ' + ${article.timestamps.createdDate}"></p>
+  <a th:href="@{/deleteForever(id=${article.id})}">영구 삭제</a>
+</div>
+<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

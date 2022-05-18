@@ -41,8 +41,15 @@ public class ArticleRepository {
                 .getResultList();
     }
 
+    // 전체 글 조회
     public List<Article> findAll() {
-        return em.createQuery("select a from Article a order by a.timestamps.createdDate desc")
+        return em.createQuery("select a from Article a where a.timestamps.deletedDate is null order by a.timestamps.createdDate desc")
+                .getResultList();
+    }
+
+    // 삭제된 글 조회
+    public List<Article> findAllDeleted() {
+        return em.createQuery("select a from Article a where a.timestamps.deletedDate is not null order by a.timestamps.createdDate desc")
                 .getResultList();
     }
 
@@ -56,7 +63,15 @@ public class ArticleRepository {
     }
 
     public void delete(Long id) {
+        em.createQuery("update Article a set a.timestamps.deletedDate = :deletedDate where a.id = :articleId")
+                .setParameter("articleId", id)
+                .setParameter("deletedDate", LocalDateTime.now())
+                .executeUpdate();
+    }
+
+    public void deleteForever(Long id) {
         em.createQuery("delete from Article a where a.id = :id")
-                .setParameter("id", id);
+                .setParameter("id", id)
+                .executeUpdate();
     }
 }
