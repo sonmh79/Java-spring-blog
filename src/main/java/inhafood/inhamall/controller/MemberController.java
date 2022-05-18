@@ -61,7 +61,12 @@ public class MemberController {
     }
 
     @GetMapping("/signup")
-    public String createSignupForm(Model model) {
+    public String createSignupForm(@RequestParam(value = "errorMessage",required = false) String errorMessage, Model model) {
+
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
         model.addAttribute("signupForm", new signupForm());
         return "members/signup";
     }

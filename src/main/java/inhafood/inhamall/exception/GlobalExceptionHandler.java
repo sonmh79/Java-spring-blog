@@ -24,4 +24,16 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", e.getMessage());
         return "redirect:/";
     }
+
+    @ExceptionHandler(LoginIdAlreadyExistException.class)
+    public String handleLoginIdAlreadyExistException(LoginIdAlreadyExistException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "redirect:/signup";
+    }
+
+    @ExceptionHandler(NameAlreadyExistException.class)
+    public String handleNameAlreadyExistException(NameAlreadyExistException e, Model model) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "redirect:/signup";
+    }
 }

@@ -1,6 +1,8 @@
 package inhafood.inhamall.service;
 
 import inhafood.inhamall.domain.Member;
+import inhafood.inhamall.exception.LoginIdAlreadyExistException;
+import inhafood.inhamall.exception.NameAlreadyExistException;
 import inhafood.inhamall.exception.NoSuchLoginIdException;
 import inhafood.inhamall.exception.PasswordNotMatchException;
 import inhafood.inhamall.repository.MemberRepository;
@@ -26,12 +28,12 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
         List<Member> findMembersByName = memberRepository.findByName(member.getName());
         if (!findMembersByName.isEmpty()) {
-            throw new IllegalStateException("이름이 중복됩니다.");
+            throw new NameAlreadyExistException();
         }
 
         List<Member> findMembersById = memberRepository.findByLoginId(member.getLoginId());
         if (!findMembersById.isEmpty()) {
-            throw new IllegalStateException("로그인 아이디가 중복됩니다.");
+            throw new LoginIdAlreadyExistException();
         }
     }
 
