@@ -54,4 +54,9 @@ public class ArticleRepository {
                 .setParameter("updatedDate", LocalDateTime.now())
                 .executeUpdate());
     }
+
+    public void delete(Long id) {
+        em.createQuery("delete from Article a where a.id = :id")
+                .setParameter("id", id);
+    }
 }
