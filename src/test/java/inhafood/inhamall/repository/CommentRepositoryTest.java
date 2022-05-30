@@ -118,4 +118,34 @@ class CommentRepositoryTest {
             Assertions.assertThat(comment.getArticle().getId()).isEqualTo(article1.getId());
         }
     }
+
+    @Test
+    void 댓글_조회_with_id() {
+        Comment comment1 = new Comment();
+        comment1.setDescription("member1의 댓글 내용입니다.");
+        comment1.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        comment1.setMember(member1);
+        comment1.setArticle(article1);
+
+        Long savedId = commentRepository.save(comment1);
+
+        Comment findComment = commentRepository.findById(savedId);
+        Assertions.assertThat(findComment.getId()).isEqualTo(savedId);
+    }
+
+    @Test
+    void 댓글_삭제() {
+        Comment comment1 = new Comment();
+        comment1.setDescription("member1의 댓글 내용입니다.");
+        comment1.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        comment1.setMember(member1);
+        comment1.setArticle(article1);
+
+        Long savedId = commentRepository.save(comment1);
+
+        commentRepository.delete(savedId);
+
+        Assertions.assertThat(commentRepository.findById(savedId)).isEqualTo(null);
+
+    }
 }
