@@ -14,8 +14,10 @@
     <p th:text="'작성 시간: ' + ${article.timestamps.createdDate}"></p>
     <p th:text="'수정 시간: ' + ${article.timestamps.updatedDate}"></p>
     <p th:text="'방문자 수: ' + ${article.visitCount}"></p>
-    <a th:href="@{/update(id=${article.id})}">글 수정</a>
-    <a th:href="@{/delete(id=${article.id})}">글 삭제</a>
+    <p th:if="${session.id} == ${article.member.id}">
+        <a th:href="@{/update(id=${article.id})}">글 수정</a>
+        <a th:href="@{/delete(id=${article.id})}">글 삭제</a>
+    </p>
 </div>
 <div th:replace="fragments/footer :: footer" />
 </body>

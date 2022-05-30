@@ -16,8 +16,6 @@
     </a>
     <p th:text="'작성자: ' + ${article.member.name}"></p>
     <p th:text="'작성 시간: ' + ${article.timestamps.createdDate}"></p>
-    <a th:href="@{/update(id=${article.id})}">글 수정</a>
-    <a th:href="@{/delete(id=${article.id})}">글 삭제</a>
 </div>
 <a th:href="@{/deletedArticleList}">휴지통</a>
 <div th:replace="fragments/footer :: footer" />
