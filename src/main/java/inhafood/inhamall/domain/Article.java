@@ -19,7 +19,7 @@ public class Article {
     @Embedded
     private Timestamps timestamps;
     private Integer visitCount;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 }
