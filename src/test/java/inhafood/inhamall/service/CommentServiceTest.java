@@ -61,9 +61,12 @@ class CommentServiceTest {
         this.article1.setDescription("Des1");
         this.article1.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
 
+        System.out.println("멤버1을 저장합니다.");
         memberService.join(this.member1);
+        System.out.println("멤버2을 저장합니다.");
         memberService.join(this.member2);
 
+        System.out.println("글을 저장합니다.");
         this.article1.setMember(this.member1);
         Long articleId = articleService.save(this.article1);
     }
@@ -72,7 +75,7 @@ class CommentServiceTest {
     void 댓글_저장() {
         Comment comment = new Comment();
         comment.setDescription("댓글 내용입니다.");
-        comment.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        comment.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
         comment.setMember(member1);
         comment.setArticle(article1);
 
@@ -86,14 +89,14 @@ class CommentServiceTest {
 
         Comment comment = new Comment();
         comment.setDescription("댓글 내용입니다.");
-        comment.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        comment.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
         comment.setMember(member1);
         comment.setArticle(article1);
 
         System.out.println("댓글을 저장합니다.");
         Long commentId = commentService.save(comment);
         System.out.println("댓글을 수정합니다.");
-        commentService.update(commentId,updatedDescription);
+        commentService.update(commentId, updatedDescription);
 
         System.out.println("댓글을 비교합니다.");
         List<Comment> findComments = commentRepository.findByMember(member1.getId());
@@ -105,17 +108,53 @@ class CommentServiceTest {
 
     @Test
     void 댓글_삭제() {
+        System.out.println("댓글을 생성합니다.");
         Comment comment = new Comment();
         comment.setDescription("댓글 내용입니다.");
-        comment.setTimestamps(new Timestamps(LocalDateTime.now(),LocalDateTime.now(),null));
+        comment.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
         comment.setMember(member1);
         comment.setArticle(article1);
 
         System.out.println("댓글을 저장합니다.");
         Long commentId = commentService.save(comment);
 
+        commentRepository.flushAndClear();
+
         System.out.println("댓글을 삭제합니다.");
         commentService.delete(commentId);
+
+        commentRepository.flushAndClear();
+
+        // Article과 Member는 삭제 X
         Assertions.assertThat(commentRepository.findById(commentId)).isEqualTo(null);
+    }
+
+    @Test
+    void 댓글_조회_with_Article() {
+
+        Long targetArticleId = article1.getId();
+
+        Comment comment = new Comment();
+        comment.setDescription("댓글 내용입니다.");
+        comment.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+        comment.setMember(member1);
+        comment.setArticle(article1);
+
+        System.out.println("댓글을 저장합니다.");
+        Long commentId = commentService.save(comment);
+
+        Comment comment2 = new Comment();
+        comment2.setDescription("댓글2 내용입니다.");
+        comment2.setTimestamps(new Timestamps(LocalDateTime.now(), LocalDateTime.now(), null));
+        comment2.setMember(member1);
+        comment2.setArticle(article1);
+
+        System.out.println("댓글2을 저장합니다.");
+        Long comment2Id = commentService.save(comment2);
+
+        List<Comment> comments = commentService.findCommentsByArticle(targetArticleId);
+        for (Comment c : comments) {
+            Assertions.assertThat(c.getArticle().getId()).isEqualTo(targetArticleId);
+        }
     }
 }

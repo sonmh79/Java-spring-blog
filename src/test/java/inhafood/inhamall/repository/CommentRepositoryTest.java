@@ -141,11 +141,19 @@ class CommentRepositoryTest {
         comment1.setMember(member1);
         comment1.setArticle(article1);
 
-        Long savedId = commentRepository.save(comment1);
+        Long memberId = member1.getId();
+        Long savedCommentId = commentRepository.save(comment1);
 
-        commentRepository.delete(savedId);
+        commentRepository.flushAndClear(); // Comment Repository 영속성 컨텍스트 동기화 및 비우기
 
-        Assertions.assertThat(commentRepository.findById(savedId)).isEqualTo(null);
+        Comment findComment = commentRepository.findById(savedCommentId);
+        commentRepository.delete(findComment); // findComment의 Article과 Member가 cascade되어 사라짐
 
+        Assertions.assertThat(commentRepository.findById(savedCommentId)).isEqualTo(null);
+
+        memberRepository.flushAndClear(); // Member Repository 영속성 컨텍스트 동기화 및 비우기
+
+        Member findMember = memberRepository.findById(memberId);
+        Assertions.assertThat(findMember).isEqualTo(null);
     }
 }
