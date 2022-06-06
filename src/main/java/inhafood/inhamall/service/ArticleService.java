@@ -1,7 +1,9 @@
 package inhafood.inhamall.service;
 
 import inhafood.inhamall.domain.Article;
+import inhafood.inhamall.domain.Comment;
 import inhafood.inhamall.repository.ArticleRepository;
+import inhafood.inhamall.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,9 @@ public class ArticleService {
 
     @Autowired
     ArticleRepository articleRepository;
+
+    @Autowired
+    CommentRepository commentRepository;
 
     public Long save(Article article) {
         articleRepository.save(article);
@@ -41,8 +46,22 @@ public class ArticleService {
         articleRepository.delete(id);
     }
 
-    public void deleteForever(Long id) {
-        articleRepository.deleteForever(id);
+    public void deleteForever(Long articleId) {
+        Article findArticle = articleRepository.findById(articleId);
+        findArticle.setMember(null);
+
+//        // 댓글 남기기
+//        List<Comment> comments = commentRepository.findByArticle(findArticle.getId());
+//        for (Comment c : comments) {
+//            c.setArticle(null);
+//        }
+        // 댓글 지우기
+        List<Comment> comments = commentRepository.findByArticle(findArticle.getId());
+        for (Comment c : comments) {
+            c.destroy();
+            commentRepository.delete(c);
+        }
+        articleRepository.deleteForever(findArticle);
     }
 
     public void visit(Long id) {

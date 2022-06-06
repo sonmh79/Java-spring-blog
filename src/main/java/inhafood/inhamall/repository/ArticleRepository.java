@@ -69,10 +69,8 @@ public class ArticleRepository {
                 .executeUpdate();
     }
 
-    public void deleteForever(Long id) {
-        em.createQuery("delete from Article a where a.id = :id")
-                .setParameter("id", id)
-                .executeUpdate();
+    public void deleteForever(Article article) {
+        em.remove(article);
     }
 
     public void visitArticle(Long id) {

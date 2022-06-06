@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -21,6 +22,10 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    public Comment findOne(Long commentId) {
+        return commentRepository.findById(commentId);
+    }
+
     public void update(Long commentId, String description) {
         Comment findComment = commentRepository.findById(commentId);
         findComment.setDescription(description);
@@ -30,6 +35,13 @@ public class CommentService {
     }
 
     public void delete(Long commentId) {
-        commentRepository.delete(commentId);
+        Comment comment = commentRepository.findById(commentId);
+        comment.destroy();
+        commentRepository.delete(comment);
     }
+
+    public List<Comment> findCommentsByArticle(Long articleId) {
+        return commentRepository.findByArticle(articleId);
+    }
+
 }

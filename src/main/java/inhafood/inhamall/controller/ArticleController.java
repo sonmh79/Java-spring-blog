@@ -1,12 +1,15 @@
 package inhafood.inhamall.controller;
 
 import inhafood.inhamall.domain.Article;
+import inhafood.inhamall.domain.Comment;
 import inhafood.inhamall.domain.Member;
 import inhafood.inhamall.domain.Timestamps;
 import inhafood.inhamall.exception.NoLoginUserException;
 import inhafood.inhamall.service.ArticleService;
+import inhafood.inhamall.service.CommentService;
 import inhafood.inhamall.service.MemberService;
 import inhafood.inhamall.web.ArticleForm;
+import inhafood.inhamall.web.CommentForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -31,6 +34,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     @GetMapping("/write")
     public String createArticleForm(Model model, HttpServletRequest request) {
@@ -120,10 +124,16 @@ public class ArticleController {
     }
 
     @GetMapping("/articleDetail")
-    public String showArticleDetail(@RequestParam(value = "id") Long id, Model model) {
-        Article article = articleService.findOne(id);
-        articleService.visit(id);
+    public String showArticleDetail(@RequestParam(value = "id") Long articleId, Model model) {
+
+        Article article = articleService.findOne(articleId);
+        List<Comment> comments = commentService.findCommentsByArticle(articleId);
+        articleService.visit(articleId);
+
         model.addAttribute("article", article);
+        model.addAttribute("comments", comments);
+        model.addAttribute("commentForm", new CommentForm());
+
         return "article/articleDetail";
     }
 }

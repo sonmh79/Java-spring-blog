@@ -32,5 +32,10 @@ public class MemberRepository {
                 .setParameter("loginId", loginId)
                 .getResultList();
     }
+
+    public void flushAndClear() {
+        em.flush();
+        em.clear();
+    }
 }
 

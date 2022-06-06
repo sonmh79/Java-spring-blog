@@ -16,6 +16,11 @@ public class CommentRepository {
     @PersistenceContext
     EntityManager em;
 
+    public void flushAndClear() {
+        em.flush();
+        em.clear();
+    }
+
     public Long save(Comment comment) {
         em.persist(comment);
         return comment.getId();
@@ -37,7 +42,13 @@ public class CommentRepository {
                 .getResultList();
     }
 
-    public void delete(Long commentId) {
-        em.remove(findById(commentId));
+//    public void delete(Long commentId) {
+//        em.createQuery("delete from Comment c where c.id = :commentId")
+//                .setParameter("commentId",commentId)
+//                .executeUpdate();
+//    }
+
+    public void delete(Comment comment) {
+        em.remove(comment);
     }
 }
