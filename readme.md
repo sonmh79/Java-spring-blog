@@ -21,10 +21,16 @@
     - 영구 삭제(deleteForever)
   - 휴지통(deletedArticleList)
 
+- 댓글 기능
+  - 작성
+  - 삭제
+  - 조회
+
 ### 엔티티
 
 - Member(id,name,loginId,password)
 - Article(id,title,description,Timestamps(createdDate, updatedDate, deletedDate),visitCount,member)
+- Comment(id,description,Timestamps(createdDate, updatedDate, deletedDate), Member, Article)
 
 ### 패키지 구조
 
