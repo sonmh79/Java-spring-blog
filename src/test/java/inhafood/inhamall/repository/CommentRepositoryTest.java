@@ -149,11 +149,9 @@ class CommentRepositoryTest {
         Comment findComment = commentRepository.findById(savedCommentId);
         commentRepository.delete(findComment); // findComment의 Article과 Member가 cascade되어 사라짐
 
+        commentRepository.flushAndClear();
+
         Assertions.assertThat(commentRepository.findById(savedCommentId)).isEqualTo(null);
 
-        memberRepository.flushAndClear(); // Member Repository 영속성 컨텍스트 동기화 및 비우기
-
-        Member findMember = memberRepository.findById(memberId);
-        Assertions.assertThat(findMember).isEqualTo(null);
     }
 }
