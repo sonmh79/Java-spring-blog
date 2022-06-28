@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader" />
+<div class="container">
 <h1>로그인</h1>
 <form action="#" th:action="@{/signin}" th:object="${signinForm}" method="post">
     <p>Id: <input type="text" th:field="*{loginId}" /></p>
@@ -15,5 +16,6 @@
     <p><input type="submit" value="로그인" /></p>
 </form>
 <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
+</div>
 </body>
 </html>

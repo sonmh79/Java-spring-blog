@@ -6,6 +6,7 @@
 </head>
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader" />
+<div class="container">
 <h1>휴지통</h1>
 <div th:each="article : ${articles}">
   <h2 th:text="'제목: ' + ${article.title}"></h2>
@@ -15,5 +16,6 @@
   <a th:href="@{/deleteForever(id=${article.id})}">영구 삭제</a>
 </div>
 <div th:replace="fragments/footer :: footer" />
+</div>
 </body>
 </html>

@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
 <div class="bodyHeader" th:fragment="bodyHeader">
-    <a href="/">홈</a>
-    <p th:if = "${session.loginCheck}" th:text = "${session.loginId.toString()} + '님 안녕하세요'"></p>
-    <p th:if = "${session.loginCheck}"><a href='/logout'>로그아웃</a></p>
-    <p th:unless = "${session.loginCheck}">
-        <a href="/signin">로그인</a>
-        <a href="/signup">회원가입</a>
-    </p>
+    <nav class="navbar navbar-expand-lg bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Sonny's blog</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                <ul class="navbar-nav me-2 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Category 1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Category 2</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <div th:if = "${session.loginCheck}" class="d-flex align-items-center mx-2">
+                    <div th:text="${session.loginId.toString()} + '님 안녕하세요'" class="d-flex me-2" href="#">로그인 성공</div>
+                    <a class="nav-link link-primary" href='/logout'>로그아웃</a>
+                </div>
+                <div th:unless = "${session.loginCheck}" class="d-flex align-items-center mx-2">
+                    <a class="nav-link link-primary me-2" href="/signin">로그인</a>
+                    <a class="nav-link link-primary" href="/signup">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>

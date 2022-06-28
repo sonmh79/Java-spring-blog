@@ -6,15 +6,23 @@
 </head>
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader" />
+<div class="container">
 <h1>글 작성</h1>
 <form action="#" th:action="@{/write}" th:object="${articleForm}" method="post">
-    <p>제목: <input type="text" th:field="*{title}" /></p>
-    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</p>
-    <p>내용: <input type="text" th:field="*{description}" /></p>
-    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</p>
-    <p><input type="submit" value="작성" /></p>
+    <label class="form-label">제목:</label>
+    <input class="form-control" type="text" th:field="*{title}" />
+    <p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</p>
+    <br>
+    <label class="form-label">내용: </label>
+    <textarea class="form-control" style="height:500px" th:field="*{description}"></textarea>
+    <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description Error</p>
+    <br>
+    <div class="d-flex w-100 justify-content-end">
+        <input class="btn btn-light" type="submit" value="작성" />
+    </div>
 </form>
 <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
 <div th:replace="fragments/footer :: footer" />
+</div>
 </body>
 </html>
