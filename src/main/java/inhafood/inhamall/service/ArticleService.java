@@ -2,6 +2,7 @@ package inhafood.inhamall.service;
 
 import inhafood.inhamall.domain.Article;
 import inhafood.inhamall.domain.Comment;
+import inhafood.inhamall.dto.ArticleDto;
 import inhafood.inhamall.repository.ArticleRepository;
 import inhafood.inhamall.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Array;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -26,8 +28,10 @@ public class ArticleService {
         return article.getId();
     }
 
-    public List<Article> findAll() {
-        return articleRepository.findAll();
+    public List<ArticleDto> findAllArticleDtos() {
+        List<Article> articles = articleRepository.findAll();
+        return articles.stream().map(a -> ArticleDto.from(a)).collect(Collectors.toList());
+
     }
 
     public List<Article> findAllDeleted() {
@@ -48,7 +52,7 @@ public class ArticleService {
 
     public void deleteForever(Long articleId) {
         Article findArticle = articleRepository.findById(articleId);
-        findArticle.setMember(null);
+        //findArticle.setMember(null);
 
 //        // 댓글 남기기
 //        List<Comment> comments = commentRepository.findByArticle(findArticle.getId());
@@ -58,7 +62,7 @@ public class ArticleService {
         // 댓글 지우기
         List<Comment> comments = commentRepository.findByArticle(findArticle.getId());
         for (Comment c : comments) {
-            c.destroy();
+            //c.destroy();
             commentRepository.delete(c);
         }
         articleRepository.deleteForever(findArticle);

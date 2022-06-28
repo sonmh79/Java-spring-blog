@@ -36,7 +36,7 @@ public class CommentService {
 
     public void delete(Long commentId) {
         Comment comment = commentRepository.findById(commentId);
-        comment.destroy();
+        // comment.destroy();
         commentRepository.delete(comment);
     }
 
