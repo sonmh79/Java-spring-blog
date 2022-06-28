@@ -4,6 +4,7 @@ import inhafood.inhamall.domain.Article;
 import inhafood.inhamall.domain.Comment;
 import inhafood.inhamall.domain.Member;
 import inhafood.inhamall.domain.Timestamps;
+import inhafood.inhamall.dto.ArticleDto;
 import inhafood.inhamall.exception.NoLoginUserException;
 import inhafood.inhamall.service.ArticleService;
 import inhafood.inhamall.service.CommentService;
@@ -73,9 +74,9 @@ public class ArticleController {
     @GetMapping("/articleList")
     public String showArticles(Model model) {
 
-        List<Article> articles = articleService.findAll();
+        List<ArticleDto> articleDtos = articleService.findAllArticleDtos();
 
-        model.addAttribute("articles", articles);
+        model.addAttribute("articleDtos", articleDtos);
 
         return "article/articleList";
     }
@@ -127,10 +128,11 @@ public class ArticleController {
     public String showArticleDetail(@RequestParam(value = "id") Long articleId, Model model) {
 
         Article article = articleService.findOne(articleId);
+        ArticleDto articleDto = ArticleDto.from(article);
         List<Comment> comments = commentService.findCommentsByArticle(articleId);
         articleService.visit(articleId);
 
-        model.addAttribute("article", article);
+        model.addAttribute("article", articleDto);
         model.addAttribute("comments", comments);
         model.addAttribute("commentForm", new CommentForm());
 
